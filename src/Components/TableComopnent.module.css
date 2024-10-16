@@ -1,0 +1,206 @@
+/* Base Container Styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Header Styles */
+.header1 {
+  font-size: 2rem;
+  color: #3e2780;
+  margin-bottom: 10px;
+}
+
+.header2 {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between; /* Align items to the ends of the container */
+  align-items: center; /* Center items vertically */
+  margin-bottom: 20px; /* Space between the header and the next content */
+}
+
+.breadcrumbs {
+  font-size: 1rem;
+  color: #555;
+}
+
+.breadcrumbs span {
+  margin: 0 5px;
+}
+
+/* Search Section Styles */
+.searchContainer {
+  display: flex;
+  flex-wrap: wrap; /* Allows the search inputs to wrap to the next line if needed */
+  gap: 10px; /* Space between inputs and button */
+  padding: 15px; /* Padding around the search section */
+  border: 1px solid #ddd; /* Light border around the search section */
+  border-radius: 5px; /* Rounded corners for the border */
+  background-color: #f9f9f9; /* Light background color */
+  margin-bottom: 20px; /* Space below the search section */
+}
+
+.searchInput {
+  flex: 1 1 200px; /* Make inputs fill the available space */
+  padding: 10px; /* Padding inside the input fields */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 5px; /* Rounded corners for the input fields */
+  font-size: 1rem; /* Font size for the input text */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+
+.selectInput {
+  flex: 1 1 200px; /* Adjust flex to match the search input */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.datetimeInput {
+  flex: 1 1 200px; /* Adjust flex to match the search input */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.searchButton {
+  padding: 10px 20px;
+  border: none;
+  background-color: #3e2780;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.searchButton:hover {
+  background-color: #005bb5; /* Darker shade of the button color on hover */
+}
+
+/* Error Message Styles */
+.error {
+  color: red;
+  margin-bottom: 20px;
+}
+
+/* Table Styles */
+.tableContainer {
+  overflow-x: auto; /* Horizontal scrolling if neces sary */
+  margin-bottom: 20px; /* Space below the table */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse; /* Collapse table borders */ 
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+                                                                                                                                                                                    
+.table th, .table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #eee;
+  color: #fff;
+  color: black;
+} 
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternate row background color */
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1; /* Hover effect for table rows */
+}
+
+/* Actions Styles */
+.actions {
+  display: flex;
+  gap: 10px; /* Space between action icons */
+}
+
+.actionIcon {
+  color: black;
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: color 0.3s ease; /* Smooth transition for icon color */
+}
+
+.actionIcon:hover {
+  color: black; /* Change icon color on hover */
+}
+
+/* Back Button Styles */
+.backButton {
+  padding: 10px 20px;
+  border: none;
+  background-color: #3e2780;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px; /* Space above the back button */
+}
+
+.backButton:hover {
+  background-color: #005bb5; /* Darker shade of the button color on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .searchContainer {
+    flex-direction: column;
+  }
+
+  .searchInput, .selectInput, .datetimeInput {
+    flex: 1 1 auto;
+  }
+
+  .table th, .table td {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchInput, .selectInput, .datetimeInput {
+    width: 100%;
+  }
+
+  .searchButton {
+    width: 100%;
+  }
+
+  .table th, .table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .actionIcon {
+    width: 20px;
+    height: 20px;
+  }
+}
+.dateRangeSeparator {
+padding: 10px;
+}

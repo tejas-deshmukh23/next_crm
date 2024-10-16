@@ -1,0 +1,204 @@
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.title {
+  text-align: left;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #3e2780;
+}
+
+.horizontalLine {
+  border: 1px solid #3e2780;
+  margin-bottom: 20px;
+}
+
+.searchOptions {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.searchGroup {
+  width: 20%;
+  margin-right: 20px;
+  position: relative;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.dateInput {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.campaignSearchInput {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: calc(100% - 12px);
+  margin-bottom: 10px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownButton {
+  height: 40px;
+  padding: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.dropdownContent {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 1;
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.noResults {
+  text-align: center;
+  color: #888;
+}
+
+.searchButton,
+.refreshButton {
+  width: 15%;
+  background-color: #3e2780;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 2%;
+  margin-left: 10px;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.searchButton:hover,
+.refreshButton:hover {
+  background-color: #5a4a9a;
+}
+
+.tableContainer {
+  overflow-x: auto; /* Enables horizontal scrolling */
+  margin-top: 20px;
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.dataTable th,
+.dataTable td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.dataTable th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+.pagination {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Center align items vertically */
+  margin-top: 20px;
+  gap: 20px; /* Adds spacing between elements */
+}
+.rowCount {
+  flex-grow: 1; /* Allows row count to take available space */
+  text-align: left; /* Align text to the left */
+}
+
+.rowsPerPage {
+  display: flex;
+  align-items: center; /* Center align label and dropdown */
+}
+
+.rowsPerPage label {
+  margin-right: 10px; /* Spacing between label and select */
+}
+
+.paginationButtons {
+  display: flex; /* Use flexbox for buttons */
+  gap: 10px; /* Spacing between buttons */
+}
+
+.pagination button {
+  padding: 8px 12px; /* Add padding for better spacing */
+  background-color: #3e2780; /* Background color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.pagination button:hover {
+  background-color: #5a4a9a; /* Hover effect */
+}
+
+.pagination button:disabled {
+  background-color: #e0e0e0; /* Disabled state */
+  cursor: not-allowed; /* Not allowed cursor */
+}
+
+.agentSearchInput {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.header {
+  display: flex;
+  justify-content: space-between; /* Aligns the title and button on opposite sides */
+  align-items: center; /* Vertically centers items */
+}
+
+.downloadButton {
+  background-color: #3e2780; /* Background color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+  padding: 10px 15px; /* Padding for better spacing */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.downloadButton:hover {
+  background-color: #5a4a9a; /* Hover effect */
+}
+
+/* Add margin for the rows per page dropdown */
+.rowsPerPage {
+  margin-left: 20px; /* Adjusts the margin for proper spacing */
+}

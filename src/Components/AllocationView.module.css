@@ -1,0 +1,236 @@
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #3e2780;
+    padding-bottom: 10px;
+  }
+  
+  .header1 {
+    font-size: 28px;
+    color: #3e2780;
+  }
+  
+  .reportTab {
+    background-color: #3e2780;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .reportTab:hover {
+    background-color: #3e2780;
+  }
+  
+  .querySection {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .selectInput,
+  .input {
+    width: 70%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+  }
+  
+  .selectInput:focus,
+  .input:focus {
+    border-color: #3e2780;
+    outline: none;
+  }
+  
+  .searchButton {
+    padding: 12px;
+    background-color: #3e2780;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .searchButton:hover {
+    background-color: #3e2780;
+  }
+  
+  .callersSection {
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    
+    max-height: 300px; /* Set max height to control the size */
+    overflow-y: auto; /* Enable vertical scrollbar */
+  }
+  
+  .callersSection h2 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .table th {
+    position: sticky;
+    background-color: #ddd;
+    color: black;
+    font-weight: bold;
+    top: 0; /* Stick to the top */
+  z-index: 10; /* Ensure header is above other content */
+
+  }
+  
+  .table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .publishButton {
+    display: block;
+    margin: 20px auto;
+    padding: 12px;
+    background-color: #3e2780;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 25%;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .publishButton:hover {
+    background-color: #3e2780;
+  }
+  
+  .message {
+    text-align: center;
+    margin-top: 10px;
+    color: #28a745; /* Success message color */
+  }
+  
+  /* Responsive Styles */
+  @media (min-width: 768px) {
+    .querySection {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+  
+    .selectInput,
+    .input {
+      flex: 1 1 20%; /* Allow two inputs to sit side by side */
+    }
+  
+    .searchButton {
+      flex: 1 1 10%; /* Make the button full width */
+    }
+  }
+  /* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it sits above other elements */
+  }
+  
+  .modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px; /* Set width for better alignment */
+    max-width: 90%; /* Responsive */
+  }
+  
+  .datePickers {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0; /* Space between date pickers */
+  }
+  
+  .datePickerContainer {
+    flex: 1;
+    margin-right: 10px; /* Space between the two date pickers */
+  }
+  
+  .datePickerContainer:last-child {
+    margin-right: 0; /* Remove right margin for last element */
+  }
+  
+  .buttonRow {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px; /* Space above buttons */
+  }
+  
+  .downloadButton, .closeButton {
+    display: flex;
+    align-items: center; /* Center icon and text */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .downloadButton {
+    margin-left: 40%;
+    background-color: #3e2780; /* Green */
+    color: white;
+  }
+  
+  .closeButton {
+    color: black;
+    margin-left: 90%;
+    margin-top: -10%;
+  }
+  
+  .datePicker {
+    width: 100%; /* Make date pickers full width */
+    padding: 10px; /* Adjust padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+  
+  .datePicker:focus {
+    border-color: #3e2780;
+    outline: none;
+  }
+  
+  
