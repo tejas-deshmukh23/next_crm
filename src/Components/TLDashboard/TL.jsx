@@ -1,10 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, LogOut } from 'lucide-react';
 import TableComponent from "../TableComponent";
 import AllocationView from '../AllocationView';
+import { getToken, setToken } from '@/utils/auth';
+import {decodeToken } from '@/utils/auth';
 
 const TLDashboard = ({ setActiveContainer }) => {
+
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      // router.push('/login');
+      setActiveContainer("LoginPage");
+    } else {
+      const decodedToken = decodeToken(token);
+      if (!decodedToken || new Date(decodedToken.exp * 1000) < new Date()) {
+        setActiveContainer("LoginPage");
+      }else{
+        if (decodedToken && decodedToken.payload) {
+          const payloadObj = JSON.parse(decodedToken.payload);
+          console.log("The decoded token payload is :: ", payloadObj);
+
+          setUser({
+            username: payloadObj.username,
+            role: payloadObj.role.title,
+          });
+
+          // if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
+          //   setActiveContainer("TLDashboard");
+          // } else {
+          //   setActiveContainer("MainPage");
+          // }
+        }
+      }
+    }
+  }, []);
+
   const [activeOption, setActiveOption] = useState(null);
   const [activeSubOption, setActiveSubOption] = useState(null);
 
@@ -84,8 +118,8 @@ const TLDashboard = ({ setActiveContainer }) => {
             className="w-12 h-12 rounded-full object-cover mr-3"
           />
           <div>
-            <div className="font-semibold">User Name</div>
-            <div className="text-sm text-indigo-300">Role</div>
+            <div className="font-semibold">{user.username}</div>
+            <div className="text-sm text-indigo-300">{user.role}</div>
           </div>
         </div>
 

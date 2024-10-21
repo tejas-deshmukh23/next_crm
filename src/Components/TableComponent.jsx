@@ -542,7 +542,7 @@ const TableComponent = () => {
   };
 
   useEffect(()=>{
-    getLeadAllRecords();
+    // getLeadAllRecords();
   },[])
 
   const getLeadAllRecords = async () => {
@@ -689,6 +689,77 @@ const TableComponent = () => {
   useEffect(()=>{
     console.log("Updated the value in the globalResponse :: ",globalResponse);
   },globalResponse)
+
+
+  // Here we wil fetch the records which are allocated to that particular user
+
+  const getAllocatedLeadRecord = async () => {
+    // e.preventDefault();
+    
+    try {
+
+      const formData1 = new FormData();
+      // formData1.append('userId', '339623');
+      formData1.append('userId','1908');
+
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}getAllocatedLeadsJSON`,formData1);
+        // setGlobalResponse(response);
+        console.log("The allocated leads are :: ",response);
+  
+        if (response.status === 200) {
+
+          console.log("Inside when response.status is :: 200");
+
+          console.log("response.data is :: ",response.data);
+
+          const formattedData = response.data.map((item, index) => ({
+          //   index: index + 1,
+          //   customer: item.partnerId, // Adjust as needed based on the structure of your data
+          //   phone: item.applyPhone,
+          //   product: item.agent, // You may need to adjust this based on your data 
+          //   status: item.statusStr,
+          //   subStatus: item.message,
+          //   disposition: item.disposition,
+          //   applyTime: item.applyTime,
+          //   dsa: item.agent,
+          //   leadType: item.category || 'N/A', // Default value if category is null
+          //   nextActionDate: item.nextActionDate || null, // Include if you need it for filtering
+          //   priority: item.priority || 'N/A' // Default if priority is null
+
+          index: index + 1,
+          customer: item.userInfo.firstname || 'N/A',
+          phone: item.apply.applyPhone || 'N/A',
+          product: item.product.productName || 'N/A',
+          status: item.apply.statusStr || 'N/A',
+          subStatus: item.apply.message || 'N/A',
+          disposition: item.apply.message1 || 'N/A',
+          applyTime: item.apply.applyTime || 'N/A',
+          dsa: item.apply.agent || 'N/A',
+          // leadType: item.apply.tier || 'N/A',
+          leadType: item.apply.tier === 0 ? "platinum" : item.apply.tier === 1 ? "Gold" : item.apply.tier === 2 ? "Silver" : item.apply.tier === 3 ? "Bronze" : "other" ,
+          nextActionDate: item.apply.nextActionDate || null,
+          priority: item.apply.priority || 'N/A'
+
+          }));
+
+          
+    
+          setRows(formattedData);
+          setFilteredRows(formattedData); // Set filtered rows to formatted data on load
+
+
+        } else {
+        }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        // console.log(error.response.data);
+    }
+  };
+
+  useEffect(()=>{
+    getAllocatedLeadRecord();
+  },[])
+
 
   return (
     <>

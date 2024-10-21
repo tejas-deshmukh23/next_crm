@@ -1,7 +1,7 @@
 "use client"; // Ensure this is at the top of the file
 
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import styles from './Login.module.css';
@@ -10,11 +10,46 @@ import Image from 'next/image';
 import chlogo from '../crmimages/logoCH.png';
 import MainPage from '../Dashboard/MainPage';
 import TLDashboard from '../TLDashboard/TL';
+import { getToken, setToken } from '@/utils/auth';
+import axios from "axios";
+import {decodeToken } from '@/utils/auth';
 
 function LoginPage() {
-  const [activeContainer, setActiveContainer] = useState('LoginPage');
+
+  const [activeContainer, setActiveContainer] = useState('');
   const [formValues, setFormValues] = useState({ username: '', password: '' });
   const [errors, setErrors] = useState({ username: '', password: '' });
+
+  const [user, setUser] = useState(null);
+
+  useEffect(()=>{
+    const token = getToken();
+    if (!token) {
+      // router.push('/login');
+      setActiveContainer("LoginPage");
+    } else {
+      const decodedToken = decodeToken(token);
+      if (!decodedToken || new Date(decodedToken.exp * 1000) < new Date()) {
+        setActiveContainer("LoginPage");
+      }else{
+        if (decodedToken && decodedToken.payload) {
+          const payloadObj = JSON.parse(decodedToken.payload);
+          console.log("The decoded token payload is :: ", payloadObj);
+
+          setUser({
+            username: payloadObj.username,
+            role: payloadObj.role.title,
+          });
+
+          if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
+            setActiveContainer("TLDashboard");
+          } else {
+            setActiveContainer("MainPage");
+          }
+        }
+      }
+    }
+  },[])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,15 +77,68 @@ function LoginPage() {
     setErrors(newErrors);
 
     if (isValid) {
-      if (formValues.username === 'tejas' && formValues.password === 'deshmukh') {
-        setActiveContainer("MainPage");
-      } else if (formValues.username === 'admin' && formValues.password === 'admin') {
-        setActiveContainer("TLDashboard");
-      }
+      handleLogin(e);
+      // if (formValues.username === 'tejas' && formValues.password === 'deshmukh') {
+      //   console.log("true");
+      //   setActiveContainer("MainPage");
+      // } else if (formValues.username === 'admin' && formValues.password === 'admin') {
+      //   setActiveContainer("TLDashboard");
+      // }
       // You might want to handle actual login logic here
       console.log('Form submitted:', formValues);
     }
   };
+
+  const handleLogin=async(e)=>{
+    console.log("Inside the handleLOgin");
+    e.preventDefault();
+    try{
+      const formData1 = new FormData();
+      formData1.append('username', formValues.username);
+      formData1.append('password', formValues.password);
+
+      console.log("Before handle post");
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}validate`,formData1)
+
+      console.log("After handle post");
+      
+      if(response.status === 200)
+      {
+        setToken(response.data.token);
+
+        const token = getToken();
+        if (token) {
+          const decodedToken = decodeToken(token);
+          if (decodedToken && decodedToken.payload) {
+            const payloadObj = JSON.parse(decodedToken.payload);
+            console.log("The decoded token payload is :: ", payloadObj);
+  
+            setUser({
+              username: payloadObj.username,
+              role: payloadObj.role.title,
+            });
+  
+            if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
+              setActiveContainer("TLDashboard");
+            } else {
+              setActiveContainer("MainPage");
+            }
+          }
+        }
+
+        
+
+        console.log("The Token is :: ",getToken());
+        console.log("The login response is :: ",response);
+      }else{
+        console.log("The login response when failed is :: ",response);
+      }
+
+    }catch(error){
+      console.log(error);
+    }
+  }
 
   return (
     <>
