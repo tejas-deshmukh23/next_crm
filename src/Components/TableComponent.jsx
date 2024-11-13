@@ -426,7 +426,7 @@ import ViewComponent from './ViewComponent';
 import { motion } from 'framer-motion'; // Import motion from framer-motion
 import axios from "axios";
 
-const TableComponent = () => {
+const TableComponent = ({loginId}) => {
 
   const [globalResponse, setGlobalResponse] = useState({});
 
@@ -700,7 +700,8 @@ const TableComponent = () => {
 
       const formData1 = new FormData();
       // formData1.append('userId', '339623');
-      formData1.append('userId','1908');
+      // formData1.append('userId','1908');
+      formData1.append('userId', loginId);
 
         const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}getAllocatedLeadsJSON`,formData1);
         // setGlobalResponse(response);
@@ -760,6 +761,15 @@ const TableComponent = () => {
     getAllocatedLeadRecord();
   },[])
 
+  const handleCall=(e)=>{
+    e.preventDefault();
+    try{
+      // Here we will write the code to connect to the tataDialer
+    }catch(Error)
+    {
+      console.log(Error);
+    }
+  }
 
   return (
     <>
@@ -1033,7 +1043,7 @@ const TableComponent = () => {
                             onClick={()=>handleTrace(row, row.index)}
                           />
                           <FaEye title="View" className={styles.actionIcon} onClick={handleView}  />
-                          <a href={`tel:${row.phone}`}><FaPhone title="Call" className={styles.actionIcon} /></a>
+                          <a href={`tel:${row.phone}`} onClick={handleCall}><FaPhone title="Call" className={styles.actionIcon} /></a>
                         </div>
                       </td>
                     </tr>

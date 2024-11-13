@@ -26,6 +26,7 @@ const MainPage = ({ setActiveContainer }) => {
           setUser({
             username: payloadObj.username,
             role: payloadObj.role.title,
+            loginId: payloadObj.loginId
           });
 
           // if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
@@ -72,7 +73,7 @@ const MainPage = ({ setActiveContainer }) => {
     }
     if (activeSubOption) {
       return (
-        <TableComponent key={activeSubOption} subOption={activeSubOption} />
+        <TableComponent key={activeSubOption} subOption={activeSubOption} loginId={user.loginId} />
       );
     }
     if (activeOption === 'LTPL Records' && !activeSubOption) {
