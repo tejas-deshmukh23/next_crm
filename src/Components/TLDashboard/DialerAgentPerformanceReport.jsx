@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './DialerAgentPerformanceReport.module.css';
 import * as XLSX from 'xlsx'; // Import XLSX for Excel functionality
