@@ -41,9 +41,14 @@ function LoginPage() {
             role: payloadObj.role.title,
           });
 
-          if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
+          // if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
+          //   setActiveContainer("TLDashboard");
+          // }
+          if(payloadObj.role.title === 'Administrator' || payloadObj.role.title === 'Techsuper' || payloadObj.role.title === 'Teamlead' ){
+            console.log("Inside useEffect when if is true");
             setActiveContainer("TLDashboard");
           } else {
+            console.log("Inside useEffect when if is false or else");
             setActiveContainer("MainPage");
           }
         }
@@ -119,9 +124,18 @@ function LoginPage() {
               role: payloadObj.role.title,
             });
   
-            if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
+            // if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
+            //   console.log("Inside if");
+            //   setActiveContainer("TLDashboard");
+            // } else {
+            //   console.log("Inside else");
+            //   setActiveContainer("MainPage");
+            // }
+
+            if(payloadObj.role.title === 'Administrator' || payloadObj.role.title === 'Techsuper' || payloadObj.role.title === 'Teamlead')
+            {
               setActiveContainer("TLDashboard");
-            } else {
+            }else{
               setActiveContainer("MainPage");
             }
           }

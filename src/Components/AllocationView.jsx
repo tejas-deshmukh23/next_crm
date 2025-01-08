@@ -21,9 +21,9 @@ const statesWithCities = {
 
 const AllocationView = () => {
 
-    useEffect(()=>{
+    useEffect(() => {
         getAllSysUsers();
-    },[])
+    }, [])
 
     const [globalResponse, setGlobalResponse] = useState([]);
     const [searchedLeads, setSearchedLeads] = useState([]);
@@ -66,7 +66,7 @@ const AllocationView = () => {
 
     const handleCheckboxChange = (index, caller) => {
 
-        console.log("The callers are :: ",caller);
+        console.log("The callers are :: ", caller);
 
         const newCallers = [...globalResponse];
         newCallers[index].selected = !newCallers[index].selected;
@@ -86,11 +86,12 @@ const AllocationView = () => {
     const handlePublish = (e) => {
         // const selectedCallers = globalResponse
         //     .filter(caller => caller.selected) // Filter to get only selected users
-            // .map(caller => ({ username: caller.username, id: caller.id })); // Create an object for each selected caller
+        // .map(caller => ({ username: caller.username, id: caller.id })); // Create an object for each selected caller
 
         const selectedCallers = globalResponse
             .filter(caller => caller.selected) // Filter to get only selected users
-            .map(caller => ({ id: caller.id,
+            .map(caller => ({
+                id: caller.id,
                 agent_number: caller.agent_number,
                 appUserId: caller.appUserId,
                 createTime: caller.createTime,
@@ -112,12 +113,12 @@ const AllocationView = () => {
                 updateTime: caller.updateTime,
                 username: caller.username,
                 whiteIP: caller.whiteIP
-})); 
-    
+            }));
+
         console.log("Selected callers are ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:", selectedCallers);
 
         allocateLeadsToUser(e, selectedCallers);
-        
+
         // Use selectedCallers as needed
     };
 
@@ -131,40 +132,39 @@ const AllocationView = () => {
     const updateLeadRecords = async (e, formattedTraceTime) => {
 
         e.preventDefault();
-    
-        try {
-          const index = rowIndex - 1;
-          console.log("Inside the updateLeadRecords :: ", globalResponse.data[index], " and the rowIndex is :: ", rowIndex);
-    
-          console.log("Trace time from the formData is :: ", formData.traceTime);
-    
-          const formData1 = new FormData();
-          formData1.append('')
-          
-    
-          const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}updateLead`, formData1);
-    
-          console.log(response);
-    
-          if (response.status === 200) {
-    
-    
-          } else {
-          }
-        } catch (error) {
-          console.error('Error submitting form:', error);
-          // console.log(error.response.data);
-        }
-      };
 
-      const getAllSysUsers=async ()=>{
+        try {
+            const index = rowIndex - 1;
+            console.log("Inside the updateLeadRecords :: ", globalResponse.data[index], " and the rowIndex is :: ", rowIndex);
+
+            console.log("Trace time from the formData is :: ", formData.traceTime);
+
+            const formData1 = new FormData();
+            formData1.append('')
+
+
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}updateLead`, formData1);
+
+            console.log(response);
+
+            if (response.status === 200) {
+
+
+            } else {
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            // console.log(error.response.data);
+        }
+    };
+
+    const getAllSysUsers = async () => {
         // e.preventDefault();
         try {
-            
+
             const response = await axios.get(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}getAllUsers`);
 
-            if(response.status === 200)
-            {
+            if (response.status === 200) {
 
                 const usersWithSelection = response.data.map(user => ({
                     ...user, // Copy existing user properties
@@ -177,65 +177,65 @@ const AllocationView = () => {
         } catch (error) {
 
             console.log(error);
-            
-        }
-      }
 
-      const allocateLeadsToUser=async (e, selectedCallers)=>{
+        }
+    }
+
+    const allocateLeadsToUser = async (e, selectedCallers) => {
         e.preventDefault();
         try {
             const formData1 = new FormData();
-            console.log("The selected users are :: ",selectedCallers);
-            formData1.append('userList', selectedCallers);
-            console.log("The searchedLeads are :: ",searchedLeads);
+            console.log("The selected users are :: ", selectedCallers);
+            // formData1.append('userList', selectedCallers);
+            // console.log("The searchedLeads are :: ", searchedLeads);
             // formData1.append('applyList', searchedLeads );
 
-        // Create the payload
-        const payload = {
-            // userList: selectedCallers.map(caller => ({
-            //     id: caller.id,
-            //     userId: caller.userId,
-            //     applyId: caller.applyId,
-            //     status: caller.status,
-            //     username: caller.username
-            // })),
-            sysUsers: selectedCallers,
-            applyLeads: searchedLeads.map(lead => ({
-                apply : {
-                id: lead.apply.id,
-                agent: lead.apply.agent,
-                agentUserId: lead.apply.agentUserId,
-                amountselected: lead.apply.amountselected,
-                applyPhone: lead.apply.applyPhone,
-                applyTime: lead.apply.applyTime,
-                call_dispostion: lead.apply.call_dispostion,
-                category: lead.apply.category,
-                content: lead.apply.content,
-                createTime: lead.apply.createTime,
-                disbursed: lead.apply.disbursed,
-                maxloan: lead.apply.maxloan,
-                message: lead.apply.message,
-                message1: lead.apply.message1,
-                nextActionDate: lead.apply.nextActionDate,
-                offline: lead.apply.offline,
-                operationId: lead.apply.operationId,
-                partnerId: lead.apply.partnerId,
-                priority: lead.apply.priority,
-                recurring: lead.apply.recurring,
-                requestMetaData: lead.apply.requestMetaData,
-                responseContent: lead.apply.responseContent,
-                salary: lead.apply.salary,
-                status: lead.apply.status,
-                statusStr: lead.apply.statusStr,
-                sub_agent: lead.apply.sub_agent,
-                sub_agentUserId: lead.apply.sub_agentUserId,
-                tier: lead.apply.tier,
-                tierStr: lead.apply.tierStr,
-                trace_count: lead.apply.trace_count,
-                updateTime: lead.apply.updateTime,
-                url: lead.apply.url
-            },
-                userInfo: {
+            // Create the payload
+            const payload = {
+                // userList: selectedCallers.map(caller => ({
+                //     id: caller.id,
+                //     userId: caller.userId,
+                //     applyId: caller.applyId,
+                //     status: caller.status,
+                //     username: caller.username
+                // })),
+                sysUsers: selectedCallers,
+                applyLeads: searchedLeads.map(lead => ({
+                    apply: {
+                        id: lead.apply.id,
+                        agent: lead.apply.agent,
+                        agentUserId: lead.apply.agentUserId,
+                        amountselected: lead.apply.amountselected,
+                        applyPhone: lead.apply.applyPhone,
+                        applyTime: lead.apply.applyTime,
+                        call_dispostion: lead.apply.call_dispostion,
+                        category: lead.apply.category,
+                        content: lead.apply.content,
+                        createTime: lead.apply.createTime,
+                        disbursed: lead.apply.disbursed,
+                        maxloan: lead.apply.maxloan,
+                        message: lead.apply.message,
+                        message1: lead.apply.message1,
+                        nextActionDate: lead.apply.nextActionDate,
+                        offline: lead.apply.offline,
+                        operationId: lead.apply.operationId,
+                        partnerId: lead.apply.partnerId,
+                        priority: lead.apply.priority,
+                        recurring: lead.apply.recurring,
+                        requestMetaData: lead.apply.requestMetaData,
+                        responseContent: lead.apply.responseContent,
+                        salary: lead.apply.salary,
+                        status: lead.apply.status,
+                        statusStr: lead.apply.statusStr,
+                        sub_agent: lead.apply.sub_agent,
+                        sub_agentUserId: lead.apply.sub_agentUserId,
+                        tier: lead.apply.tier,
+                        tierStr: lead.apply.tierStr,
+                        trace_count: lead.apply.trace_count,
+                        updateTime: lead.apply.updateTime,
+                        url: lead.apply.url
+                    },
+                    userInfo: {
                         account_holder_name: lead.userInfo?.account_holder_name,
                         account_number: lead.userInfo?.account_number,
                         active: lead.userInfo?.active,
@@ -322,125 +322,132 @@ const AllocationView = () => {
                         webSource: lead.userInfo?.webSource,
                         workemail: lead.userInfo?.workemail,
                         yoe: lead.userInfo?.yoe,
+                    },
+                    // Add product fields
+                    product: {
+                        amountRange: lead.product?.amountRange,
+                        applink: lead.product?.applink,
+                        archived: lead.product?.archived,
+                        bronze: lead.product?.bronze,
+                        cpi: lead.product?.cpi,
+                        createTime: lead.product?.createTime,
+                        credit_profile: lead.product?.credit_profile,
+                        description: lead.product?.description,
+                        disburseTime: lead.product?.disburseTime,
+                        excludeDsa: lead.product?.excludeDsa,
+                        excludeDsaList: lead.product?.excludeDsaList,
+                        features: lead.product?.features,
+                        featuresList: lead.product?.featuresList,
+                        fees: lead.product?.fees,
+                        gold: lead.product?.gold,
+                        id: lead.product?.id,
+                        interestRange: lead.product?.interestRange,
+                        logo: lead.product?.logo,
+                        maxAmount: lead.product?.maxAmount,
+                        maxInterest: lead.product?.maxInterest,
+                        maxSalary: lead.product?.maxSalary,
+                        maxTenure: lead.product?.maxTenure,
+                        max_age: lead.product?.max_age,
+                        max_loanamount: lead.product?.max_loanamount,
+                        minAmount: lead.product?.minAmount,
+                        minExperian: lead.product?.minExperian,
+                        minInterest: lead.product?.minInterest,
+                        minSalary: lead.product?.minSalary,
+                        minTenure: lead.product?.minTenure,
+                        min_age: lead.product?.min_age,
+                        min_loanamount: lead.product?.min_loanamount,
+                        onlyNetpay: lead.product?.onlyNetpay,
+                        onlySalary: lead.product?.onlySalary,
+                        other: lead.product?.other,
+                        others: lead.product?.others,
+                        platinum: lead.product?.platinum,
+                        process: lead.product?.process,
+                        productName: lead.product?.productName,
+                        recurring: lead.product?.recurring,
+                        rejectionmsg: lead.product?.rejectionmsg,
+                        sample: lead.product?.sample,
+                        shortDesc: lead.product?.shortDesc,
+                        silver: lead.product?.silver,
+                        sortcredithaat: lead.product?.sortcredithaat,
+                        sortindex: lead.product?.sortindex,
+                        status: lead.product?.status,
+                        supported: lead.product?.supported,
+                        tenureRange: lead.product?.tenureRange,
+                        updateTime: lead.product?.updateTime,
+                        url: lead.product?.url,
+                    }
+                }))
+            };
+
+            console.log("The payload before sending to the user is :: ", payload);
+
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}allocateLeads`, payload, {
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                // Add product fields
-                product: {
-                    amountRange: lead.product?.amountRange,
-                    applink: lead.product?.applink,
-                    archived: lead.product?.archived,
-                    bronze: lead.product?.bronze,
-                    cpi: lead.product?.cpi,
-                    createTime: lead.product?.createTime,
-                    credit_profile: lead.product?.credit_profile,
-                    description: lead.product?.description,
-                    disburseTime: lead.product?.disburseTime,
-                    excludeDsa: lead.product?.excludeDsa,
-                    excludeDsaList: lead.product?.excludeDsaList,
-                    features: lead.product?.features,
-                    featuresList: lead.product?.featuresList,
-                    fees: lead.product?.fees,
-                    gold: lead.product?.gold,
-                    id: lead.product?.id,
-                    interestRange: lead.product?.interestRange,
-                    logo: lead.product?.logo,
-                    maxAmount: lead.product?.maxAmount,
-                    maxInterest: lead.product?.maxInterest,
-                    maxSalary: lead.product?.maxSalary,
-                    maxTenure: lead.product?.maxTenure,
-                    max_age: lead.product?.max_age,
-                    max_loanamount: lead.product?.max_loanamount,
-                    minAmount: lead.product?.minAmount,
-                    minExperian: lead.product?.minExperian,
-                    minInterest: lead.product?.minInterest,
-                    minSalary: lead.product?.minSalary,
-                    minTenure: lead.product?.minTenure,
-                    min_age: lead.product?.min_age,
-                    min_loanamount: lead.product?.min_loanamount,
-                    onlyNetpay: lead.product?.onlyNetpay,
-                    onlySalary: lead.product?.onlySalary,
-                    other: lead.product?.other,
-                    others: lead.product?.others,
-                    platinum: lead.product?.platinum,
-                    process: lead.product?.process,
-                    productName: lead.product?.productName,
-                    recurring: lead.product?.recurring,
-                    rejectionmsg: lead.product?.rejectionmsg,
-                    sample: lead.product?.sample,
-                    shortDesc: lead.product?.shortDesc,
-                    silver: lead.product?.silver,
-                    sortcredithaat: lead.product?.sortcredithaat,
-                    sortindex: lead.product?.sortindex,
-                    status: lead.product?.status,
-                    supported: lead.product?.supported,
-                    tenureRange: lead.product?.tenureRange,
-                    updateTime: lead.product?.updateTime,
-                    url: lead.product?.url,
-                }
-            }))
-        };
+            });
 
-        console.log("The payload before sending to the user is :: ",payload);
-            
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}allocateLeads`, payload,{
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                        });
 
-            if(response.status === 200)
-            {
-                console.log("Successfull")  
-            }
+            console.log("The response is :: ",response);
+
+            // if (response.status === 200) {
+            //     console.log("Successfull")
+            // }
 
         } catch (error) {
 
             console.log(error);
-            
-        }
-      }
 
-      const getSearchedLeads = async (e) => {
+        }
+    }
+
+    const getSearchedLeads = async (e) => {
 
         console.log("Inside the traceReportDate");
 
         e.preventDefault();
-    
+
         try {
-        //   const index = rowIndex - 1;
-        //   console.log("Inside the updateLeadRecords :: ", globalResponse.data[index], " and the rowIndex is :: ", rowIndex);
-    
-        //   console.log("Trace time from the formData is :: ", formData.traceTime);
-    
-          const formData1 = new FormData();
-          formData1.append('product', searchCriteria.product);
-          formData1.append('stages', searchCriteria.stages);
-          formData1.append('leadType', searchCriteria.leadType);
-          formData1.append('applyTime', searchCriteria.applyTime);
-          formData1.append('state', searchCriteria.state);
-          formData1.append('city', searchCriteria.city);
-        // formData1.append('state', "bihar");
-        // formData1.append('city', "patna");
-          formData1.append('tier', searchCriteria.tier);
+            //   const index = rowIndex - 1;
+            //   console.log("Inside the updateLeadRecords :: ", globalResponse.data[index], " and the rowIndex is :: ", rowIndex);
 
-          const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}searchTLPanelLeads`, formData1);
-    
-          console.log(response);
-    
-          if (response.status === 200) {
-             // Optionally set the filtered data to the fetched data
+            //   console.log("Trace time from the formData is :: ", formData.traceTime);
 
-             console.log("The response is :: ",response);
-             setSearchedLeads(response.data);
+            const formData1 = new FormData();
+            formData1.append('product', searchCriteria.product);
+            formData1.append('stages', searchCriteria.stages);
+            formData1.append('leadType', searchCriteria.leadType);
+            formData1.append('applyTime', searchCriteria.applyTime);
+            formData1.append('state', searchCriteria.state);
+            formData1.append('city', searchCriteria.city);
+            // formData1.append('state', "bihar");
+            // formData1.append('city', "patna");
+            formData1.append('tier', searchCriteria.tier);
 
-          } else {
 
-            console.log("Something went wrong and i.e : ");
-          }
+            console.log("Before going to backend");
+
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}searchTLPanelLeads`, formData1);
+
+            console.log("after coming from backennd");
+
+            console.log(response);
+
+            if (response.status === 200) {
+                // Optionally set the filtered data to the fetched data
+
+                console.log("The response is :: ", response);
+                setSearchedLeads(response.data);
+
+            } else {
+
+                console.log("Something went wrong and i.e : ");
+            }
         } catch (error) {
-          console.error('Error submitting form:', error);
-          // console.log(error.response.data);
+            console.error('Error submitting form:', error);
+            // console.log(error.response.data);
         }
-      };
+    };
 
     return (
         <motion.div
@@ -489,7 +496,7 @@ const AllocationView = () => {
                 <div>
                     <div className={styles.querySection}>
                         {/* Existing search criteria elements */}
-                        <select 
+                        <select
                             name="product"
                             value={searchCriteria.product}
                             onChange={handleChange}
@@ -573,7 +580,7 @@ const AllocationView = () => {
                             <option value="3">Closer</option>
                             <option value="2">Incomplete</option>
                         </select>
-                        
+
                         <select
                             name="leadType"
                             value={searchCriteria.leadType}
@@ -586,26 +593,26 @@ const AllocationView = () => {
                             <option value="Silver">Silver</option>
                             <option value="Bronze">Bronze</option>
                         </select>
-                        
+
                         <label>
-                            Apply Time: 
+                            Apply Time:
                             <input type="datetime-local" name="applyTime" onChange={handleChange} className={styles.input} />
                         </label>
-                        
+
                         <select name="state" onChange={handleChange} className={styles.selectInput}>
                             <option value="" disabled>Select State</option>
                             {Object.keys(statesWithCities).map((state, index) => (
                                 <option key={index} value={state}>{state}</option>
                             ))}
                         </select>
-                        
+
                         <select name="city" onChange={handleChange} className={styles.selectInput}>
                             <option value="" disabled>Select City</option>
                             {searchCriteria.state && statesWithCities[searchCriteria.state].map((city, index) => (
                                 <option key={index} value={city}>{city}</option>
                             ))}
                         </select>
-                        
+
                         <input type="text" name="tier" placeholder="Tier" onChange={handleChange} className={styles.input} />
                         <button onClick={handleSearch} className={styles.searchButton}>Query</button>
                     </div>
@@ -639,7 +646,7 @@ const AllocationView = () => {
                                 {
                                     globalResponse.map((caller, index) => (
                                         <tr key={index}>
-                                            <td>{index+1}</td>
+                                            <td>{index + 1}</td>
                                             <td>{caller.username}</td>
                                             <td>
                                                 <input
