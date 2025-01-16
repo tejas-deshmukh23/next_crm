@@ -4,6 +4,9 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",  // Add this if you have files in root pages
+    "./components/**/*.{js,ts,jsx,tsx,mdx}", // Add this if you have files in root components
+    "./src/**/*.{js,ts,jsx,tsx,mdx}", // Add this to catch all files in src
   ],
   theme: {
     extend: {

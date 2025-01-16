@@ -27,6 +27,7 @@ const TLDashboard = ({ setActiveContainer }) => {
           setUser({
             username: payloadObj.username,
             role: payloadObj.role.title,
+            loginId: payloadObj.loginId,
           });
 
           // if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
@@ -82,7 +83,7 @@ const TLDashboard = ({ setActiveContainer }) => {
       return <div>Content for Apply Records</div>;
     }
     if (activeSubOption === 'Apply Records Online') {
-      return <TableComponent />;
+      return <TableComponent loginId={user.loginId} />;
     }
     if (activeSubOption === 'Apply Records Offline') {
       return <TableComponent />;
@@ -136,7 +137,7 @@ const TLDashboard = ({ setActiveContainer }) => {
               >
                 <span>{option.name}</span>
                 <ChevronRight
-                  className={`float-right transition-transform ${
+                  className={`float-right transition-transform ${ 
                     activeOption === option.name ? 'rotate-90' : ''
                   }`}
                 />

@@ -25,7 +25,7 @@ const formatDate = (dateStr) => {
   return `${day}-${month}-${year} T ${hours}:${minutes}:${seconds}`;
 };
 
-const TraceComponent = ({ rowData, globalResponse, rowIndex }) => {
+const TraceComponent = ({ rowData, globalResponse, rowIndex, loginId }) => {
   const router = useRouter();
   const [activeContainer, setActiveContainer] = useState('TraceComponent'); // State to manage active container
   const [formData, setFormData] = useState({
@@ -224,14 +224,14 @@ const TraceComponent = ({ rowData, globalResponse, rowIndex }) => {
       <AnimatePresence>
         {activeContainer === 'TableComponent' && (
 
-          <TableComponent />
+          <TableComponent loginId={loginId} />
 
         )}
         {activeContainer === 'TraceComponent' && (
           <motion.div
             key="view" // Unique key for Framer Motion
             initial={{ x: '0%' }} // Start on screen
-            animate={{ x: '0%' }} // Stay on screen
+            animate={{ x: '0%' }} // Stay on screenxr
             exit={{ x: '100%' }} // Slide out to the left when going back
             transition={{ duration: 0.5 }} // Duration of the transition
           >

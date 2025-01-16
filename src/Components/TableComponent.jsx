@@ -537,7 +537,9 @@ const TableComponent = ({loginId}) => {
     // setActiveContainer('TraceComponent');
   },[rowData])
 
-  const handleView = () => {
+  const handleView = (row, rowIndex) => {
+    setRowData(row);
+    setRowIndex(rowIndex);
     setActiveContainer('ViewComponent');
   };
 
@@ -706,6 +708,7 @@ const TableComponent = ({loginId}) => {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}getAllocatedLeadsJSON`,formData1);
         // setGlobalResponse(response);
         console.log("The allocated leads are :: ",response);
+        setGlobalResponse(response);
   
         if (response.status === 200) {
 
@@ -780,7 +783,7 @@ const TableComponent = ({loginId}) => {
           exit={{ x: '100%' }} 
           transition={{ duration: 0.5 }} // Adjust the duration for speed
         >
-          <TraceComponent rowData = {rowData} globalResponse={globalResponse} rowIndex={rowIndex}/>
+          <TraceComponent rowData = {rowData} globalResponse={globalResponse} rowIndex={rowIndex} loginId={loginId}/>
         </motion.div>
       )}
 
@@ -791,7 +794,7 @@ const TableComponent = ({loginId}) => {
           exit={{ x: '100%' }} 
           transition={{ duration: 0.5 }} // Adjust the duration for speed
         >
-          <ViewComponent />
+          <ViewComponent rowData = {rowData} globalResponse={globalResponse} rowIndex={rowIndex} loginId={loginId} />
         </motion.div>
       )}
 
@@ -1042,8 +1045,8 @@ const TableComponent = ({loginId}) => {
                             className={styles.actionIcon}
                             onClick={()=>handleTrace(row, row.index)}
                           />
-                          <FaEye title="View" className={styles.actionIcon} onClick={handleView}  />
-                          <a href={`tel:${row.phone}`} onClick={handleCall}><FaPhone title="Call" className={styles.actionIcon} /></a>
+                          <FaEye title="View" className={styles.actionIcon} onClick={()=>handleView(row, row.index)}  />
+                          {/* <a href={`tel:${row.phone}`} onClick={handleCall}><FaPhone title="Call" className={styles.actionIcon} /></a> */}
                         </div>
                       </td>
                     </tr>

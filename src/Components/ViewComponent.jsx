@@ -1,41 +1,75 @@
 "use client"; // Mark this component as a Client Component
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ViewComponent.module.css';
 import TableComponent from './TableComponent'; // Adjust path as needed
 import { motion, AnimatePresence } from 'framer-motion'; // Import motion and AnimatePresence
 
-const ViewComponent = () => {
+const ViewComponent = ({rowData, globalResponse, rowIndex, loginId}) => {
   const [activeContainer, setActiveContainer] = useState('ViewComponent'); // State to manage active container
+
+  useEffect(()=>{
+    console.log("The response that we got from the rowData in viewComponent is :: ",rowData);
+    console.log("The rowIndex is :: ",rowIndex);
+    console.log("The LoginId is :: ",loginId);
+    console.log("The globalResponse data is  :: ",globalResponse.data);
+  },[])
 
   const handleBack = () => {
     setActiveContainer('TableComponent'); // Set active container to TableComponent
   };
 
+  // const updateddata = {
+  //   "Apply Phone": "123-456-7890",
+  //   "Product": "Loan",
+  //    "Partner ID": "ABC123",
+  //   "Apply Time": "2024-09-12 15:14:17",
+  //   "Status": "Data Submitted",
+  //   "API Response Content": "Sample API response",
+  //   "Abandoning Reason": "",
+  //   "Next Action Date": "",
+  //   "DSA": "MoneyTap",
+  //   "Sub DSA": "",
+  //   "Agent User ID": "4678543",
+  //   "SUB Agent User ID": "",
+  //   "Operation ID": "",
+  //   "Request Meta Data": "",
+  //   "Lead Type": "Bronze",
+  //   "Monthly Salary": "23000.00",
+  //   "Trace Count": "0",
+  //   "Disbursed Amount": "",
+  //   "URL": "",
+  //   "Offline": "",
+  //   "Recurring": "",
+  //   "Create Time": "2024-09-12 15:14:17",   
+  //   "Last Update Time": ""
+  // };
+
   const updateddata = {
-    "Apply Phone": "123-456-7890",
-    "Product": "Loan",
-     "Partner ID": "ABC123",
-    "Apply Time": "2024-09-12 15:14:17",
-    "Status": "Data Submitted",
-    "API Response Content": "Sample API response",
-    "Abandoning Reason": "",
-    "Next Action Date": "",
-    "DSA": "MoneyTap",
-    "Sub DSA": "",
-    "Agent User ID": "4678543",
-    "SUB Agent User ID": "",
-    "Operation ID": "",
-    "Request Meta Data": "",
+    "Apply Phone": rowData?rowData.phone:'NA',
+    "Product": rowData?.product || 'NA',
+     "Partner ID": globalResponse?.data[rowIndex-1]?.apply?.partnerId || 'NA',//To check this if its correct or not
+    // "Partner ID": globalResponse?globalResponse.data.apply.partnerId:'NA',
+    "Apply Time": rowData?.applyTime || 'NA',
+    "Status": rowData?.status || 'NA',
+    "API Response Content": globalResponse?.data[rowIndex-1]?.apply?.responseContent || 'NA',
+    "Abandoning Reason": globalResponse?.data[rowIndex-1]?.apply?.content || 'NA',//To check this if correct or not
+    "Next Action Date": rowData?.nextActionDate || 'NA',
+    "DSA": rowData?.dsa || 'NA',
+    "Sub DSA": rowData?.subDsa || 'NA',
+    "Agent User ID": globalResponse?.data[rowIndex-1]?.apply?.agentUserId || 'NA',
+    "SUB Agent User ID": globalResponse?.data[rowIndex-1]?.apply?.sub_agentUserId || 'NA',
+    "Operation ID": globalResponse?.data[rowIndex-1]?.apply?.operationId || 'NA',
+    "Request Meta Data": globalResponse?.data[rowIndex-1]?.apply?.requestMetaData || 'NA',
     "Lead Type": "Bronze",
-    "Monthly Salary": "23000.00",
-    "Trace Count": "0",
-    "Disbursed Amount": "",
-    "URL": "",
-    "Offline": "",
-    "Recurring": "",
-    "Create Time": "2024-09-12 15:14:17",   
-    "Last Update Time": ""
+    "Monthly Salary": globalResponse?.data[rowIndex-1]?.apply?.salary || 'NA',
+    "Trace Count": globalResponse?.data[rowIndex-1]?.apply?.trace_count || 'NA',
+    "Disbursed Amount": globalResponse?.data[rowIndex-1]?.apply?.disbursed || 'NA',
+    "URL": globalResponse?.data[rowIndex-1]?.apply?.url || 'NA',
+    "Offline": globalResponse?.data[rowIndex-1]?.apply?.offline || 'NA',
+    "Recurring": globalResponse?.data[rowIndex-1]?.apply?.recurring || 'NA',
+    "Create Time": globalResponse?.data[rowIndex-1]?.apply?.createTime || 'NA',   
+    "Last Update Time": globalResponse?.data[rowIndex-1]?.apply?.updateTime || 'NA'
   };
 
   return (
@@ -49,7 +83,7 @@ const ViewComponent = () => {
             exit={{ x: '100%' }} // Slide out to the right
             transition={{ duration: 0.5 }} // Duration of the transition
           > 
-            <TableComponent />
+            <TableComponent loginId={loginId}/>
           </motion.div>
         )}
 
@@ -61,6 +95,7 @@ const ViewComponent = () => {
             exit={{ x: '100%' }} // Slide out to the left when going back
             transition={{ duration: 0.5 }} // Duration of the transition
           >
+            {console.log("Inside return :: ",globalResponse)}
             <div className={styles.container}>
               {/* Header Section */}
               <div className={styles.headerContainer}>
