@@ -8,6 +8,10 @@ import styles from './TraceComponent.module.css';
 import TableComponent from './TableComponent';
 import { motion, AnimatePresence } from 'framer-motion'; // Import motion and AnimatePresence
 import axios from "axios";
+import ApplyOnlineCalledUsers from './ApplyOnlineCalledUsers';
+import { getToken, setToken } from '@/utils/auth';
+import {decodeToken } from '@/utils/auth';
+
 
 const formatDate = (dateStr) => {
   if (!dateStr || isNaN(new Date(dateStr).getTime())) {
@@ -25,7 +29,42 @@ const formatDate = (dateStr) => {
   return `${day}-${month}-${year} T ${hours}:${minutes}:${seconds}`;
 };
 
-const TraceComponent = ({ rowData, globalResponse, rowIndex, loginId }) => {
+const TraceComponent = ({ rowData, globalResponse, rowIndex, loginId, setCalledResponse, calledResponse, componentName }) => {
+
+  const [userPayload, setUserPayload] = useState('');
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      // router.push('/login');
+      setActiveContainer("LoginPage");
+    } else {
+      const decodedToken = decodeToken(token);
+      if (!decodedToken || new Date(decodedToken.exp * 1000) < new Date()) {
+        setActiveContainer("LoginPage");
+      }else{
+        if (decodedToken && decodedToken.payload) {
+          const payloadObj = JSON.parse(decodedToken.payload);
+          setUserPayload(payloadObj);
+          console.log("The decoded token payload is :: ", payloadObj);
+
+          setUser({
+            username: payloadObj.username,
+            role: payloadObj.role.title,
+            loginId: payloadObj.loginId,
+          });
+
+          // if (payloadObj.username === 'admin' && payloadObj.role.title === 'Techsuper') {
+          //   setActiveContainer("TLDashboard");
+          // } else {
+          //   setActiveContainer("MainPage");
+          // }
+        }
+      }
+    }
+  }, []);
+
   const router = useRouter();
   const [activeContainer, setActiveContainer] = useState('TraceComponent'); // State to manage active container
   const [formData, setFormData] = useState({
@@ -142,21 +181,56 @@ const TraceComponent = ({ rowData, globalResponse, rowIndex, loginId }) => {
       formData1.append('disbursementAmount', formData.disbursementAmount);
       formData1.append('status', formData.status);
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}updateLead`, formData1);
+      // const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}updateLead`, formData1);
+
+      //Temporarily we will call here the method to save the calledLeads
+      console.log("The global Response before sending to the saveCalledLead api is :: ",globalResponse);
+      const formData2 = new FormData();
+      // formData2.append("searchResponse",)
+
+      console.log("Payload:", globalResponse.data[rowIndex - 1]);
+console.log("Headers:", { 'User-Info': JSON.stringify(userPayload) });
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}saveCalledLead`,globalResponse.data[rowIndex-1],
+      {
+        headers: {
+          'User-Info': JSON.stringify(userPayload.loginId)  // Send user info in headers
+        }
+        // headers: {
+        //     'User-Info': userPayload  // Send user info in headers
+        //   }
+      });
+
+
 
       console.log(response);
 
-      if (response.status === 200) {
+      // setCalledResponse(globalResponse.data[rowIndex-1]);
+      const newResponse = globalResponse.data[rowIndex-1];
+        
+        // Update state by adding the new response to the array
+        setCalledResponse(prevResponses => {
+          // If prevResponses is empty, start with an array containing just the new response
+          if (!Array.isArray(prevResponses) || prevResponses.length === 0) {
+            return [newResponse];
+          }
+          // Otherwise, add the new response to the existing array
+          return [...prevResponses, newResponse];
+        });
 
-        console.log("Inside when response.status is :: 200");
+      // if (response.status === 200) {
 
-        console.log("response.data is :: ", response.data);
+        
 
-        console.log("And Response is :: ", response);// Set filtered rows to formatted data on load
+      //   console.log("Inside when response.status is :: 200");
+
+      //   console.log("response.data is :: ", response.data);
+
+      //   console.log("And Response is :: ", response);// Set filtered rows to formatted data on load
 
 
-      } else {
-      }
+      // } else {
+      // }
     } catch (error) {
       console.error('Error submitting form:', error);
       // console.log(error.response.data);
@@ -172,7 +246,16 @@ const TraceComponent = ({ rowData, globalResponse, rowIndex, loginId }) => {
   };
 
   const handleBack = () => {
-    setActiveContainer('TableComponent'); // Set active container to TableComponent
+    // alert(componentName);
+    // if(componentName !== "ApplyOnlineCalledUsers")
+    // {
+    //   setActiveContainer('TableComponent'); // Set active container to TableComponent
+    // }else{
+    //   setActiveContainer('ApplyOnlineCalledUsers');
+    // }
+
+    setActiveContainer("ApplyOnlineCalledUsers");
+    
     // Any additional logic for back navigation can go here
   };
 
@@ -227,6 +310,12 @@ const TraceComponent = ({ rowData, globalResponse, rowIndex, loginId }) => {
           <TableComponent loginId={loginId} />
 
         )}
+        {
+          activeContainer === "ApplyOnlineCalledUsers" && 
+          // <ApplyOnlineCalledUsers setCalledResponse={setCalledResponse} calledResponse={calledResponse} key={activeSubOption} subOption={activeSubOption} loginId={user.loginId}/>
+          <ApplyOnlineCalledUsers setCalledResponse={setCalledResponse} calledResponse={calledResponse} loginId={loginId}/>
+          
+        }
         {activeContainer === 'TraceComponent' && (
           <motion.div
             key="view" // Unique key for Framer Motion

@@ -1,419 +1,3 @@
-// "use client";
-
-// import React, { useEffect, useState } from 'react';
-// import Image from 'next/image';
-// import styles from './TableComopnent.module.css'; // Ensure the path is correct
-// import { FaEye, FaPhone } from 'react-icons/fa'; // Import remaining icons from react-icons
-// import traceImg from "../Components/crmimages/traceicon.png";
-// import TraceComponent from './TraceComponent';
-// import ViewComponent from './ViewComponent';
-// import { motion } from 'framer-motion'; // Import motion from framer-motion
-// import axios from "axios";
-
-// const TableComponent = () => {
-//   const [searchCriteria, setSearchCriteria] = useState({
-//     customer: '',
-//     phone: '',
-//     product: '',
-//     status: '',
-//     applyStartTime: '',
-//     applyEndTime: '',
-//     nextActionStartDate: '',
-//     nextActionEndDate: '',
-//     priority: '',
-//     dsa: '',
-//     leadType: ''
-//   });
-
-//   const [activeContainer, setActiveContainer] = useState('tableComponent');
-//   const [rows, setRows] = useState(generateDummyData());
-//   const [filteredRows, setFilteredRows] = useState(rows);
-//   const [error, setError] = useState('');
-
-//   // --------------------------------------------------------------------------------------------------------------------------------------
-
-//   const [globalResponse, setGlobalResponse] = useState({});
-
-//   useEffect(()=>{
-//     getLeadAllRecords();
-//   },[])
-
-//   const getLeadAllRecords = async () => {
-//     // e.preventDefault();
-    
-//     try {
-  
-//         // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}chfronetendotpgenerator`, formData1, {
-//         //     headers: {
-//         //         'Content-Type': 'application/json',`
-//         //     },
-//         // });
-
-
-  
-//         const response = await axios.get(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}findAll`);
-//         setGlobalResponse(response);
-//         console.log(response);
-  
-//         if (response.status === 200) {
-
-//           console.log("Inside when response.status is :: 200");
-
-//           console.log("response.data is :: ",response.data);                                            
-
-//           const formattedData = response.data.map((item, index) => ({          
-//           //   index: index + 1,
-//           //   customer: item.partnerId, // Adjust as needed based on the structure of your data
-//           //   phone: item.applyPhone,
-//           //   product: item.agent, // You may need to adjust this based on your data 
-//           //   status: item.statusStr,
-//           //   subStatus: item.message,
-//           //   disposition: item.disposition,
-//           //   applyTime: item.applyTime,
-//           //   dsa: item.agent,
-//           //   leadType: item.category || 'N/A', // Default value if category is null
-//           //   nextActionDate: item.nextActionDate || null, // Include if you need it for filtering
-//           //   priority: item.priority || 'N/A' // Default if priority is null
-
-//           index: index + 1,
-//           customer: item.userInfo.firstname || 'N/A',
-//           phone: item.apply.applyPhone || 'N/A',
-//           product: item.product.productName || 'N/A',
-//           status: item.apply.statusStr || 'N/A',
-//           subStatus: item.apply.message || 'N/A',
-//           disposition: item.apply.message1 || 'N/A',
-//           applyTime: item.apply.applyTime || 'N/A',
-//           dsa: item.apply.agent || 'N/A',
-//           // leadType: item.apply.tier || 'N/A',
-//           leadType: item.apply.tier === 0 ? "platinum" : item.apply.tier === 1 ? "Gold" : item.apply.tier === 2 ? "Silver" : item.apply.tier === 3 ? "Bronze" : "other" ,
-//           nextActionDate: item.apply.nextActionDate || null,
-//           priority: item.apply.priority || 'N/A'
-
-//           }));
-
-          
-    
-//           setRows(formattedData);
-//           setFilteredRows(formattedData); // Set filtered rows to formatted data on load
-
-
-//         } else {
-//         }
-//     } catch (error) {
-//         console.error('Error submitting form:', error);
-//         // console.log(error.response.data);
-//     }
-//   };
-
-//   const getLeadSearchedRecords = async (agent, status, applyStartTime, phone, product, customerName) => {
-//     // e.preventDefault();
-
-//     console.log("applyStartTime inside the getLeadSearchedRecords :: ",applyStartTime);
-//     console.log("Phone is :: ", phone);
-    
-//     try {
-
-//       const formData1 = new FormData();
-//       // formData1.append('agent', agent);
-//       formData1.append('status', status);
-//       // formData1.append('applyTime', applyStartTime);
-//       formData1.append('phone',phone);
-//       formData1.append('product', product);
-//       formData1.append('customerName', customerName);
-
-//         const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}search`, formData1);
-
-//         setGlobalResponse(response);
-
-//         console.log(response);
-  
-//         if (response.status === 200) {
-
-//           console.log("Inside when response.status is :: 200");
-
-//           console.log("response.data is :: ",response.data);
-
-//           console.log("And Response is :: ",response);
-
-         
-
-//           const formattedData = response.data.map((item, index) => ({
-            
-//             // index: index + 1,
-//             // customer: item.firstName, // Adjust as needed based on the structure of your data
-//             // phone: item.applyPhone,
-//             // product: item.agent, // You may need to adjust this based on your data
-//             // status: item.statusStr,
-//             // subStatus: item.message,
-//             // disposition: item.disposition,
-//             // applyTime: item.applyTime,
-//             // dsa: item.agent,
-//             // leadType: item.category || 'N/A', // Default value if category is null
-//             // nextActionDate: item.nextActionDate || null, // Include if you need it for filtering
-//             // priority: item.priority || 'N/A' // Default if priority is null
-
-//             index: index + 1,
-//                 customer: item.userInfo.firstname || 'N/A',
-//                 phone: item.apply.applyPhone || 'N/A',
-//                 product: item.product.productName || 'N/A',
-//                 status: item.apply.statusStr || 'N/A',
-//                 subStatus: item.apply.message || 'N/A',
-//                 disposition: item.apply.message1 || 'N/A',
-//                 applyTime: item.apply.applyTime || 'N/A',
-//                 dsa: item.apply.agent || 'N/A',
-//                 // leadType: item.apply.tier || 'N/A',
-//                 leadType: item.apply.tier === 0 ? "platinum" : item.apply.tier === 1 ? "Gold" : item.apply.tier === 2 ? "Silver" : item.apply.tier === 3 ? "Bronze" : "other" ,
-//                 nextActionDate: item.apply.nextActionDate || null,
-//                 priority: item.apply.priority || 'N/A'
-//           }));
-    
-//           setRows(formattedData);
-//           setFilteredRows(formattedData); // Set filtered rows to formatted data on load
-
-
-//         } else {
-//         }
-//     } catch (error) {
-//         console.error('Error submitting form:', error);
-//         // console.log(error.response.data);
-//     }
-//   };
-
-//   // ---------------------------------------------------------------------------------------------------------------------------------------
-
-//   function generateDummyData() {
-//     return [...Array(10)].map((_, index) => ({
-//       index: index + 1,
-//       customer: `Customer ${index + 1}`,
-//       phone: `Phone ${index + 1}`,
-//       product: `Product ${index + 1}`,
-//       status: `Status ${index + 1}`,
-//       message: `Message ${index + 1}`,
-//       applyTime: `2024-09-0${(index % 5) + 1}T12:00`, // Sample date-time
-//       dsa: `DSA ${index + 1}`,
-//       leadType: `Lead Type ${index + 1}`
-//     }));
-//   }
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setSearchCriteria(prev => ({
-//       ...prev,
-//       [name]: value
-//     }));
-//   };
-
-//   const handleSearch = () => {
-
-//     getLeadSearchedRecords(searchCriteria.agent, searchCriteria.status, searchCriteria.applyStartTime, searchCriteria.phone, searchCriteria.product, searchCriteria.customer);
-
-
-//   };
-
-//   const handleTrace = () => {
-//     setActiveContainer('TraceComponent');
-//   };
-
-//   const handleView = () => {
-//     setActiveContainer('ViewComponent');
-//   };
-
-//   return (
-//     <>
-//       {activeContainer === 'TraceComponent' && (
-//         <motion.div 
-//           initial={{ x: '100%' }} 
-//           animate={{ x: 0 }} 
-//           exit={{ x: '100%' }} 
-//           transition={{ duration: 0.5 }} // Adjust the duration for speed
-//         >
-//           <TraceComponent />
-//         </motion.div>
-//       )}
-
-//       {activeContainer === 'ViewComponent' && (
-//         <motion.div 
-//           initial={{ x: '100%' }} 
-//           animate={{ x: 0 }} 
-//           exit={{ x: '100%' }} 
-//           transition={{ duration: 0.5 }} // Adjust the duration for speed
-//         >
-//           <ViewComponent />
-//         </motion.div>
-//       )}
-
-//       {activeContainer === 'tableComponent' && (
-//         <motion.div
-//           initial={{ x: 0 }} 
-//           animate={{ x: 0 }} 
-//           exit={{ x: '-100%' }} // Optional, if you want to animate the exit
-//           transition={{ duration: 0.5 }} // Adjust the duration for speed
-//         >
-//           <div className={styles.container}>
-//             {/* Breadcrumb Navigation */}
-//             <div className={styles.headerContainer}>
-//               <h1 className={styles.header1}>Apply Record</h1>
-//               <div className={styles.breadcrumbs}>
-//                 <span>Apply Record</span> &gt;
-//                 <span>Apply Record List</span>
-//               </div>
-//             </div>
-
-//             {/* Search and Filter Section */}
-//             <div className={styles.searchContainer}>
-//               <input
-//                 type="text"
-//                 name="customer"
-//                 placeholder="Customer Name"
-//                 value={searchCriteria.customer}
-//                 onChange={handleChange}
-//                 className={styles.searchInput}
-//               />
-//               <input
-//                 type="text"
-//                 name="phone"
-//                 placeholder="Phone No."
-//                 value={searchCriteria.phone}
-//                 onChange={handleChange}
-//                 className={styles.searchInput}
-//               />
-//               <select
-//                 name="product"
-//                 value={searchCriteria.product}
-//                 onChange={handleChange}
-//                 className={styles.selectInput}
-//               >
-//                 <option value="">Product</option>
-//                 <option value="Product 1">Product 1</option>
-//                 <option value="Product 2">Product 2</option>
-//                 <option value="Product 3">Product 3</option>
-//               </select>
-//               <select
-//                 name="status"
-//                 value={searchCriteria.status}
-//                 onChange={handleChange}
-//                 className={styles.selectInput}
-//               >
-//                 <option value="">Status</option>
-//                 <option value="Status 1">Status 1</option>
-//                 <option value="Status 2">Status 2</option>
-//                 <option value="Status 3">Status 3</option>
-//               </select>
-//               <div className={styles.dateRangeContainer}>
-//                 <label className={styles.dateRangeLabel}>Apply Time:</label>
-//                 <input
-//                   type="datetime-local"
-//                   name="applyStartTime"
-//                   value={searchCriteria.applyStartTime}
-//                   onChange={handleChange}
-//                   className={styles.datetimeInput}
-//                 />
-//                 <span className={styles.dateRangeSeparator}>to</span>
-//                 <input
-//                   type="datetime-local"
-//                   name="applyEndTime"
-//                   value={searchCriteria.applyEndTime}
-//                   onChange={handleChange}
-//                   className={styles.datetimeInput}
-//                 />
-//               </div>
-//               <select
-//                 name="priority"
-//                 value={searchCriteria.priority}
-//                 onChange={handleChange}
-//                 className={styles.selectInput}
-//               >
-//                 <option value="">Priority</option>
-//                 <option value="High">High</option>
-//                 <option value="Medium">Medium</option>
-//                 <option value="Low">Low</option>
-//               </select>
-              
-//               <select
-//                 name="leadType"
-//                 value={searchCriteria.leadType}
-//                 onChange={handleChange}
-//                 className={styles.selectInput}
-//               >
-//                 <option value="">Lead type</option>
-//                 <option value="Lead Type 1">Lead Type 1</option>
-//                 <option value="Lead Type 2">Lead Type 2</option>
-//                 <option value="Lead Type 3">Lead Type 3</option>
-//               </select>
-             
-//               <div className={styles.dateRangeContainer}>
-//                 <label className={styles.dateRangeLabel}>Next action date:</label>
-//                 <input
-//                   type="datetime-local"
-//                   name="nextActionStartDate"
-//                   value={searchCriteria.nextActionStartDate}
-//                   onChange={handleChange}
-//                   className={styles.datetimeInput}
-//                 />
-//                 <span className={styles.dateRangeSeparator}>to</span>
-//                 <input
-//                   type="datetime-local"
-//                   name="nextActionEndDate"
-//                   value={searchCriteria.nextActionEndDate}
-//                   onChange={handleChange}
-//                   className={styles.datetimeInput}
-//                 />
-//               </div>
-//               <button onClick={handleSearch} className={styles.searchButton}>Search</button>
-//             </div>
-
-//             {error && <p className={styles.error}>{error}</p>}
-
-//             {/* Table Section */}
-//             <div className={styles.tableContainer}>
-//               <table className={styles.table}>
-//                 <thead>
-//                   <tr>
-//                     {['Index', 'Customer Name', 'Phone No.', 'Product Name', 'Status', 'Message', 'Apply Time', 'DSA', 'Lead Type', 'Actions'].map((header, index) => (
-//                       <th key={index}>{header}</th>
-//                     ))}
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {filteredRows.map((row, rowIndex) => (
-//                     <tr key={rowIndex}>
-//                       <td>{row.index}</td>
-//                       <td>{row.customer}</td>
-//                       <td>{row.phone}</td>
-//                       <td>{row.product}</td>
-//                       <td>{row.status}</td>
-//                       <td>{row.message}</td>
-//                       <td>{new Date(row.applyTime).toLocaleString()}</td>
-//                       <td>{row.dsa}</td>
-//                       <td>{row.leadType}</td>
-//                       <td>
-//                         <div className={styles.actions}>
-//                           <Image
-//                             src={traceImg}
-//                             alt="Trace"
-//                             width={20}
-//                             height={20}
-//                             className={styles.actionIcon}
-//                             onClick={handleTrace}
-//                           />
-//                           <FaEye title="View" className={styles.actionIcon} onClick={handleView} />
-//                           <a href={`tel:${row.phone}`}><FaPhone title="Call" className={styles.actionIcon} /></a>
-//                         </div>
-//                       </td>
-//                     </tr>
-//                   ))}
-//                 </tbody>
-//               </table>
-//             </div>
-//           </div>
-//         </motion.div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default TableComponent;
-
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -426,7 +10,11 @@ import ViewComponent from './ViewComponent';
 import { motion } from 'framer-motion'; // Import motion from framer-motion
 import axios from "axios";
 
-const TableComponent = ({loginId, setCalledResponse, calledResponse}) => {
+const ApplyOnlineCalledUsers = ({loginId, setCalledResponse, calledResponse}) => {
+
+  useEffect(()=>{
+    console.log("The called Response is :: ",calledResponse);
+  },[])
 
   const [globalResponse, setGlobalResponse] = useState({});
 
@@ -446,7 +34,7 @@ const TableComponent = ({loginId, setCalledResponse, calledResponse}) => {
     leadType: null
   });
 
-  const [activeContainer, setActiveContainer] = useState('tableComponent');
+  const [activeContainer, setActiveContainer] = useState('ApplyOnlineCalledUsers');
   const [rows, setRows] = useState(generateDummyData());
   const [filteredRows, setFilteredRows] = useState(rows);
   const [error, setError] = useState('');
@@ -703,18 +291,20 @@ const TableComponent = ({loginId, setCalledResponse, calledResponse}) => {
       const formData1 = new FormData();
       // formData1.append('userId', '339623');
       // formData1.append('userId','1908');
-      formData1.append('userId', loginId);
+      formData1.append('loginId', loginId);
 
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}getAllocatedLeadsJSON`,formData1);
+        // const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}getAllocatedLeadsJSON`,formData1);
         // setGlobalResponse(response);
-        console.log("The allocated leads are :: ",response);
+        // console.log("The allocated leads are :: ",response);
+        // setGlobalResponse(response);
+
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}getCalledLeads`,formData1);
         setGlobalResponse(response);
-  
-        if (response.status === 200) {
+        if (true) {
 
           console.log("Inside when response.status is :: 200");
 
-          console.log("response.data is :: ",response.data);
+          // console.log("response.data is :: ",response.data);
 
           const formattedData = response.data.map((item, index) => ({
           //   index: index + 1,
@@ -783,11 +373,11 @@ const TableComponent = ({loginId, setCalledResponse, calledResponse}) => {
           exit={{ x: '100%' }} 
           transition={{ duration: 0.5 }} // Adjust the duration for speed
         >
-          <TraceComponent rowData = {rowData} globalResponse={globalResponse} rowIndex={rowIndex} loginId={loginId} setCalledResponse={setCalledResponse} calledResponse={calledResponse} />
+          <TraceComponent componentName={"ApplyOnlineCalledUsers"} rowData = {rowData} globalResponse={globalResponse} rowIndex={rowIndex} loginId={loginId}/>
         </motion.div>
       )}
 
-      {activeContainer === 'ViewComponent' && (
+      {activeContainer === 'ViewComponent' && ( 
         <motion.div 
           initial={{ x: '100%' }} 
           animate={{ x: 0 }} 
@@ -798,7 +388,7 @@ const TableComponent = ({loginId, setCalledResponse, calledResponse}) => {
         </motion.div>
       )}
 
-      {activeContainer === 'tableComponent' && (
+      {activeContainer === 'ApplyOnlineCalledUsers' && (
         <motion.div
           initial={{ x: 0 }} 
           animate={{ x: 0 }} 
@@ -1061,5 +651,5 @@ const TableComponent = ({loginId, setCalledResponse, calledResponse}) => {
   );
 };
 
-export default TableComponent;
+export default ApplyOnlineCalledUsers;
 

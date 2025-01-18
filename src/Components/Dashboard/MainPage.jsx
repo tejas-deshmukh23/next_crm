@@ -4,10 +4,13 @@ import { ChevronRight, LogOut } from 'lucide-react';
 import TableComponent from "../TableComponent";
 import { getToken, setToken } from '@/utils/auth';
 import {decodeToken } from '@/utils/auth';
+import ApplyOnlineCalledUsers from '../ApplyOnlineCalledUsers';
 
 const MainPage = ({ setActiveContainer }) => {
 
   const [user, setUser] = useState({});
+
+  const [calledResponse, setCalledResponse] = useState([]);
 
   useEffect(() => {
     const token = getToken();
@@ -45,7 +48,7 @@ const MainPage = ({ setActiveContainer }) => {
   const menuOptions = [
     {
       name: 'Apply Records',
-      subOptions: ['Apply Records Online', 'Apply Records Offline'],
+      subOptions: ['Apply Records Online', 'Apply Records Offline', 'Online Called Users'],
     },
     {
       name: 'LTPL Records',
@@ -71,9 +74,26 @@ const MainPage = ({ setActiveContainer }) => {
     if (activeOption === 'Apply Records' && !activeSubOption) {
       return <div>Content for Apply Records</div>;
     }
-    if (activeSubOption) {
+    if (activeSubOption === 'Apply Records Online') {
       return (
-        <TableComponent key={activeSubOption} subOption={activeSubOption} loginId={user.loginId} />
+        <TableComponent key={activeSubOption} subOption={activeSubOption} loginId={user.loginId} setCalledResponse={setCalledResponse} calledResponse={calledResponse} activeSubOption={activeSubOption}/>
+      );
+    }
+    if (activeSubOption === 'Apply Records Offline') {
+      return (
+        // <TableComponent key={activeSubOption} subOption={activeSubOption} loginId={user.loginId} />
+        <div>Here we will show Offline Records</div>
+      );
+    }
+    if (activeSubOption === 'Online Called Users') {
+      return (
+        <>
+          <div>Called Users</div>
+          {
+            <ApplyOnlineCalledUsers setCalledResponse={setCalledResponse} calledResponse={calledResponse} key={activeSubOption} subOption={activeSubOption} loginId={user.loginId}/>
+          }
+          
+        </>
       );
     }
     if (activeOption === 'LTPL Records' && !activeSubOption) {
