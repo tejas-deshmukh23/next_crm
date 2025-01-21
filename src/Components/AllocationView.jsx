@@ -10,6 +10,8 @@ import CampaignPerformanceReport from './TLDashboard/CampaignPerformanceReport';
 import TraceLogReport from './TLDashboard/TraceLogReport'; // Import TraceLogReport component
 import { useEffect } from 'react';
 import axios from "axios";
+import RecordLoader from './loaders/recordLoader';
+import AllocationLoader from "./loaders/AllocationLoader";
 
 // List of states and their major cities in India
 const statesWithCities = {
@@ -20,6 +22,9 @@ const statesWithCities = {
 };
 
 const AllocationView = () => {
+
+    const [recordLoader, setRecordLoader] = useState(false);
+    const[allocationLoader, setAllocationLoader] = useState(false);
 
     useEffect(() => {
         getAllSysUsers();
@@ -189,6 +194,8 @@ const AllocationView = () => {
             // formData1.append('userList', selectedCallers);
             // console.log("The searchedLeads are :: ", searchedLeads);
             // formData1.append('applyList', searchedLeads );
+
+            setAllocationLoader(true);
 
             // Create the payload
             const payload = {
@@ -389,6 +396,7 @@ const AllocationView = () => {
 
 
             console.log("The response is :: ",response);
+            setAllocationLoader(false);
 
             // if (response.status === 200) {
             //     console.log("Successfull")
@@ -427,6 +435,8 @@ const AllocationView = () => {
 
             console.log("Before going to backend");
 
+            setRecordLoader(true);
+
             const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}searchTLPanelLeads`, formData1);
 
             console.log("after coming from backennd");
@@ -438,18 +448,30 @@ const AllocationView = () => {
 
                 console.log("The response is :: ", response);
                 setSearchedLeads(response.data);
+                setRecordLoader(false);
 
             } else {
 
                 console.log("Something went wrong and i.e : ");
+                // setRecordLoader(false);
             }
         } catch (error) {
             console.error('Error submitting form:', error);
+            // setRecordLoader(true);
             // console.log(error.response.data);
         }
     };
 
-    return (
+    return (<>
+
+        {
+            recordLoader && <RecordLoader/>
+        }
+
+        {
+            allocationLoader && <AllocationLoader/>
+        }
+    
         <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -670,6 +692,7 @@ const AllocationView = () => {
                 </div>
             )}
         </motion.div>
+        </>
     );
 };
 

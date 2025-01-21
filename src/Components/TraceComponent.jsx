@@ -181,11 +181,12 @@ const TraceComponent = ({ rowData, globalResponse, rowIndex, loginId, setCalledR
       formData1.append('disbursementAmount', formData.disbursementAmount);
       formData1.append('status', formData.status);
 
-      // const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}updateLead`, formData1);
+      const updateLeadResponse = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}updateLead`, formData1);//This function updates the trace record
+      console.log(updateLeadResponse);
 
       //Temporarily we will call here the method to save the calledLeads
-      console.log("The global Response before sending to the saveCalledLead api is :: ",globalResponse);
-      const formData2 = new FormData();
+      // console.log("The global Response before sending to the saveCalledLead api is :: ",globalResponse);
+      // const formData2 = new FormData();
       // formData2.append("searchResponse",)
 
       console.log("Payload:", globalResponse.data[rowIndex - 1]);
@@ -201,9 +202,9 @@ console.log("Headers:", { 'User-Info': JSON.stringify(userPayload) });
         //   }
       });
 
+      // console.log(response);
 
-
-      console.log(response);
+      updateAllocatedLead(e);
 
       // setCalledResponse(globalResponse.data[rowIndex-1]);
       const newResponse = globalResponse.data[rowIndex-1];
@@ -240,21 +241,19 @@ console.log("Headers:", { 'User-Info': JSON.stringify(userPayload) });
   const handleCall = (phoneNumber) => {
     if (phoneNumber) {
       alert(`Dialing ${phoneNumber}`);
-      // Uncomment to enable actual dialing
-      // window.location.href = `tel:${phoneNumber}`;
     }
   };
 
   const handleBack = () => {
     // alert(componentName);
-    // if(componentName !== "ApplyOnlineCalledUsers")
-    // {
-    //   setActiveContainer('TableComponent'); // Set active container to TableComponent
-    // }else{
-    //   setActiveContainer('ApplyOnlineCalledUsers');
-    // }
+    if(componentName !== "ApplyOnlineCalledUsers")
+    {
+      setActiveContainer('TableComponent'); // Set active container to TableComponent
+    }else{
+      setActiveContainer('ApplyOnlineCalledUsers');
+    }
 
-    setActiveContainer("ApplyOnlineCalledUsers");
+    // setActiveContainer("ApplyOnlineCalledUsers");
     
     // Any additional logic for back navigation can go here
   };
@@ -301,6 +300,66 @@ console.log("Headers:", { 'User-Info': JSON.stringify(userPayload) });
     'Existing Customer': 14,
     'Criteria Not Meet': 15,
   };
+
+  // const updateAllocatedLead = async (e) => {
+
+  //   console.log("Inside the updateAllocatedLead");
+
+  //   e.preventDefault();
+
+  //   try {
+  //     const index = rowIndex - 1;
+  //     console.log("Inside the updateAllocatedLead :: ");
+
+  //     const formData1 = new FormData();
+
+  //     formData1.append('loginId', user.loginId);
+  //     formData1.append('searchResponse',  globalResponse.data[rowIndex - 1]);
+
+  //     const response = await axios.post(`${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}removeAllocatedLead`,formData1);
+
+  //     console.log("The response form updateAllocatedLeads is :: ",response);
+
+  //   } catch (error) {
+  //     console.error('Error submitting form:', error);
+  //     // console.log(error.response.data);
+  //   }
+  // };
+
+  const updateAllocatedLead = async (e) => {
+    console.log("Inside the updateAllocatedLead");
+    e.preventDefault();
+
+    try {
+        const index = rowIndex - 1;
+        const searchResponseData = globalResponse.data[rowIndex - 1];
+        
+        // Log the data being sent for debugging
+        console.log("Data being sent:", searchResponseData);
+        console.log("Login ID being sent:", user.loginId);
+
+        const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}removeAllocatedLead`,
+            searchResponseData,  // Send the search response data directly as the body
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'loginId': user.loginId  // Remove JSON.stringify - send raw value
+                }
+            }
+        );
+
+        console.log("The response from updateAllocatedLeads is :: ", response);
+
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        if (error.response) {
+            console.error('Error response:', error.response.data);
+            console.error('Error status:', error.response.status);
+            console.error('Error headers:', error.response.headers);
+        }
+    }
+};
 
   return (
     <>

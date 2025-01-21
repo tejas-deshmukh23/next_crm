@@ -373,7 +373,8 @@ const ApplyOnlineCalledUsers = ({loginId, setCalledResponse, calledResponse}) =>
           exit={{ x: '100%' }} 
           transition={{ duration: 0.5 }} // Adjust the duration for speed
         >
-          <TraceComponent componentName={"ApplyOnlineCalledUsers"} rowData = {rowData} globalResponse={globalResponse} rowIndex={rowIndex} loginId={loginId}/>
+          {/* <TraceComponent componentName={"ApplyOnlineCalledUsers"} rowData = {rowData} globalResponse={globalResponse} rowIndex={rowIndex} loginId={loginId}/> */}
+          <TraceComponent componentName={"ApplyOnlineCalledUsers"} rowData = {rowData} globalResponse={globalResponse} rowIndex={rowIndex} loginId={loginId} setCalledResponse={setCalledResponse} calledResponse={calledResponse} />
         </motion.div>
       )}
 

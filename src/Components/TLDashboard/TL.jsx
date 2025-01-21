@@ -5,8 +5,11 @@ import TableComponent from "../TableComponent";
 import AllocationView from '../AllocationView';
 import { getToken, setToken } from '@/utils/auth';
 import {decodeToken } from '@/utils/auth';
+import ApplyOnlineCalledUsers from '../ApplyOnlineCalledUsers';
 
 const TLDashboard = ({ setActiveContainer }) => {
+
+  const [calledResponse, setCalledResponse] = useState([]);
 
   const [user, setUser] = useState({});
 
@@ -50,7 +53,7 @@ const TLDashboard = ({ setActiveContainer }) => {
       },
     {
       name: 'Apply Records',
-      subOptions: ['Apply Records Online', 'Apply Records Offline'],
+      subOptions: ['Apply Records Online', 'Apply Records Offline', 'Online Called Users'],
     },
     {
       name: 'LTPL Records',
@@ -87,6 +90,14 @@ const TLDashboard = ({ setActiveContainer }) => {
     }
     if (activeSubOption === 'Apply Records Offline') {
       return <TableComponent />;
+    }
+    if(activeSubOption === 'Online Called Users'){
+      return (
+        <>
+          {/* <div>Online Called Users</div> */}
+          <ApplyOnlineCalledUsers setCalledResponse={setCalledResponse} calledResponse={calledResponse} key={activeSubOption} subOption={activeSubOption} loginId={user.loginId}/>
+        </>
+      )
     }
     if (activeOption === 'LTPL Records' && !activeSubOption) {
       return <div>Content for LTPL Records Option</div>;
