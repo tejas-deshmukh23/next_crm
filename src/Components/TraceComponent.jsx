@@ -68,7 +68,7 @@ const TraceComponent = ({ rowData, globalResponse, rowIndex, loginId, setCalledR
   const router = useRouter();
   const [activeContainer, setActiveContainer] = useState('TraceComponent'); // State to manage active container
   const [formData, setFormData] = useState({
-    tracer: '',
+    tracer: user.username,
     calledNumber: '',
     content: '',
     traceTime: '',
@@ -258,14 +258,24 @@ console.log("Headers:", { 'User-Info': JSON.stringify(userPayload) });
     // Any additional logic for back navigation can go here
   };
 
+  // const statusMap = {
+  //   'App Downloaded': 0,
+  //   'Loan Applied': 1,
+  //   'Approved': 2,
+  //   'Rejected': 3,
+  //   'Disbursed': 4,
+  //   'Abandoned': 5,
+  //   'Call Back': 6
+  // };
+
   const statusMap = {
-    'App Downloaded': 0,
-    'Loan Applied': 1,
-    'Approved': 2,
-    'Rejected': 3,
-    'Disbursed': 4,
-    'Abandoned': 5,
-    'Call Back': 6
+    'App Downloaded': 1,
+    'Loan Applied': 2,
+    'Approved': 3,
+    'Rejected': 4,
+    'Disbursed': 5,
+    'Abandoned': 7,
+    'Call Back': 9
   };
 
   const callDispositionMap = {

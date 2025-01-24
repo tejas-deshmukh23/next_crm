@@ -638,7 +638,7 @@ const AllocationView = () => {
                         <input type="text" name="tier" placeholder="Tier" onChange={handleChange} className={styles.input} />
                         <button onClick={handleSearch} className={styles.searchButton}>Query</button>
                     </div>
-
+                    <div>Records Loaded :: {searchedLeads.length}</div>
                     <h2 className={styles.header1}>Callers List</h2>
                     <div className={styles.callersSection}>
                         <table className={styles.table}>
